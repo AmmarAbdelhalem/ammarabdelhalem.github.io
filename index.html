@@ -13,6 +13,7 @@
       margin: 40px;
       direction: rtl;
       text-align: justify;
+      transition: background 0.3s, color 0.3s;
     }
 
     h1 {
@@ -30,37 +31,76 @@
       border-right: 5px solid #3498db;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s, color 0.3s, border 0.3s;
     }
 
     hr {
       border: none;
       border-top: 2px dashed #ccc;
       margin: 30px 0;
+      transition: border-color 0.3s;
     }
 
-    /* زر الصوت */
-    #playButton {
+    /* أزرار التحكم */
+    .top-buttons {
       position: fixed;
       top: 15px;
       left: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
       background: #3498db;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 10px 15px;
       border-radius: 6px;
       cursor: pointer;
       font-family: 'Cairo', sans-serif;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: background 0.3s;
     }
 
-    #playButton:hover {
+    button:hover {
       background: #2980b9;
+    }
+
+    /* الوضع الداكن */
+    body.dark {
+      background: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    body.dark h1 {
+      color: #ecf0f1;
+    }
+
+    body.dark p {
+      background: #2c2c2c;
+      border-right: 5px solid #9b59b6;
+      color: #f1f1f1;
+    }
+
+    body.dark hr {
+      border-top: 2px dashed #666;
+    }
+
+    body.dark button {
+      background: #9b59b6;
+    }
+
+    body.dark button:hover {
+      background: #8e44ad;
     }
   </style>
 </head>
 <body>
-  <!-- زر الصوت -->
-  <button id="playButton">🔊 تشغيل التلاوة</button>
+  <!-- أزرار أعلى الصفحة -->
+  <div class="top-buttons">
+    <button id="playButton">🔊 تشغيل التلاوة</button>
+    <button id="themeToggle">🌙 الوضع الداكن</button>
+  </div>
 
   <!-- مشغل الصوت -->
   <audio id="quranAudio" src="فكيف اذا جئنا من كل امة بشهيد الشيخ محمد ايوب.mp4"></audio>
@@ -82,18 +122,30 @@
   <script>
     const audio = document.getElementById("quranAudio");
     const playButton = document.getElementById("playButton");
+    const themeToggle = document.getElementById("themeToggle");
+    const body = document.body;
 
-    // محاولة التشغيل عند بداية الصفحة (قد تمنعه المتصفحات)
+    // محاولة تشغيل الصوت عند بداية الصفحة
     window.addEventListener("load", () => {
       audio.play().catch(() => {
         console.log("المتصفح منع التشغيل التلقائي، اضغط الزر للتشغيل.");
       });
     });
 
-    // تشغيل عند الضغط على الزر
+    // زر تشغيل التلاوة
     playButton.addEventListener("click", () => {
       audio.currentTime = 0;
       audio.play();
+    });
+
+    // زر تبديل الثيم
+    themeToggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
+      if (body.classList.contains("dark")) {
+        themeToggle.textContent = "☀️ الوضع الفاتح";
+      } else {
+        themeToggle.textContent = "🌙 الوضع الداكن";
+      }
     });
   </script>
 </body>
