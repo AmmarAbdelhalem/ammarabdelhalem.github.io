@@ -138,9 +138,9 @@
     }
 
     // محاولة تشغيل الصوت عند بداية الصفحة
-    window.addEventListener("load", () => {
-      audio.play().catch(() => console.log("المتصفح منع التشغيل التلقائي"));
-    });
+    // window.addEventListener("load", () => {
+    //   audio.play().catch(() => console.log("المتصفح منع التشغيل التلقائي"));
+    // });
 
     playButton.addEventListener("click", () => {
       audio.currentTime = 0;
