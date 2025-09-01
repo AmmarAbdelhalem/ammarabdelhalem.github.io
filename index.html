@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- متجاوب -->
   <title>تذكر</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   
@@ -17,7 +18,7 @@
       background: #fdfdfb url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
       color: #222;
       line-height: 2;
-      margin: 40px;
+      margin: 20px;
       direction: rtl;
       text-align: justify;
       transition: background 0.3s, color 0.3s;
@@ -27,15 +28,15 @@
       font-family: 'Cairo', sans-serif;
       text-align: center;
       color: #2c3e50;
-      margin-bottom: 30px;
+      margin: 20px 0;
       opacity: 0;
       animation: fadeIn 2s ease forwards;
     }
 
     p {
-      font-size: 20px;
-      margin-bottom: 25px;
-      padding: 15px;
+      font-size: 18px;
+      margin-bottom: 20px;
+      padding: 12px;
       background: #fff;
       border-right: 5px solid #3498db;
       border-radius: 8px;
@@ -49,29 +50,31 @@
     hr {
       border: none;
       border-top: 2px dashed #ccc;
-      margin: 30px 0;
+      margin: 20px 0;
       transition: border-color 0.3s;
     }
 
     /* أزرار أعلى الصفحة */
     .top-buttons {
       position: fixed;
-      top: 15px;
-      left: 15px;
+      top: 10px;
+      left: 10px;
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     button {
       background: #3498db;
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-family: 'Cairo', sans-serif;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       transition: background 0.3s;
+      font-size: 14px;
     }
 
     button:hover {
@@ -106,10 +109,39 @@
       background: #8e44ad;
     }
 
+    /* زر رجوع للأعلى */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: none;
+      background: #e74c3c;
+    }
+
+    body.dark #backToTop {
+      background: #c0392b;
+    }
+
     /* أنيميشن */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* جعل المحتوى متجاوب */
+    @media (max-width: 768px) {
+      body {
+        margin: 10px;
+        font-size: 16px;
+      }
+      p {
+        font-size: 16px;
+        padding: 10px;
+      }
+      button {
+        font-size: 13px;
+        padding: 7px 10px;
+      }
     }
   </style>
 </head>
@@ -137,11 +169,15 @@
   <hr>
   <p>عن أبي هريرة -رضي الله عنه- قال: قال رسول الله -صلّى الله عليه وسلّم- قال: (بادِروا بالأعمالِ سبعًا هل تنتظرون إلا فقراً مُنسياً، أو غنىً مُطغياً، أو مرضاً مُفسدًا، أو هرماً مُفنداً، أو موتاً مُجهزاً، أو الدجالَ فشرُّ غائبٍ ينتظرُ أو الساعةُ فالساعةُ أدهى وأمرُّ)</p>
 
+  <!-- زر الرجوع للأعلى -->
+  <button id="backToTop">⬆️ للأعلى</button>
+
   <script>
     const audio = document.getElementById("quranAudio");
     const playButton = document.getElementById("playButton");
     const themeToggle = document.getElementById("themeToggle");
     const body = document.body;
+    const backToTop = document.getElementById("backToTop");
 
     // محاولة تشغيل الصوت عند بداية الصفحة
     window.addEventListener("load", () => {
@@ -159,11 +195,22 @@
     // زر تبديل الثيم
     themeToggle.addEventListener("click", () => {
       body.classList.toggle("dark");
-      if (body.classList.contains("dark")) {
-        themeToggle.textContent = "☀️ الوضع الفاتح";
+      themeToggle.textContent = body.classList.contains("dark") 
+        ? "☀️ الوضع الفاتح" 
+        : "🌙 الوضع الداكن";
+    });
+
+    // زر رجوع للأعلى
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        backToTop.style.display = "block";
       } else {
-        themeToggle.textContent = "🌙 الوضع الداكن";
+        backToTop.style.display = "none";
       }
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   </script>
 </body>
