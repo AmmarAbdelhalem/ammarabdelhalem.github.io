@@ -2,16 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- متجاوب -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تذكر</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- أيقونة الموقع (هلال 🌙) -->
-  <link rel="icon" href="data:image/svg+xml,
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-    <text y='.9em' font-size='90'>🌙</text>
-  </svg>">
-  
+
   <style>
     body {
       font-family: 'Amiri', 'Cairo', serif;
@@ -41,7 +35,6 @@
       border-right: 5px solid #3498db;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: background 0.3s, color 0.3s, border 0.3s;
       opacity: 0;
       animation: fadeIn 1.5s ease forwards;
       animation-delay: 0.5s;
@@ -51,34 +44,6 @@
       border: none;
       border-top: 2px dashed #ccc;
       margin: 20px 0;
-      transition: border-color 0.3s;
-    }
-
-    /* أزرار أعلى الصفحة */
-    .top-buttons {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background: #3498db;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: 'Cairo', sans-serif;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: background 0.3s;
-      font-size: 14px;
-    }
-
-    button:hover {
-      background: #2980b9;
     }
 
     /* الوضع الداكن */
@@ -87,27 +52,56 @@
       color: #e0e0e0;
     }
 
-    body.dark h1 {
-      color: #ecf0f1;
-    }
-
+    body.dark h1 { color: #ecf0f1; }
     body.dark p {
       background: #2c2c2c;
       border-right: 5px solid #9b59b6;
       color: #f1f1f1;
     }
+    body.dark hr { border-top: 2px dashed #666; }
 
-    body.dark hr {
-      border-top: 2px dashed #666;
+    /* مشغل الصوت */
+    .audio-player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #3498db;
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      flex-wrap: wrap;
     }
 
-    body.dark button {
-      background: #9b59b6;
+    .audio-player button {
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
     }
 
-    body.dark button:hover {
-      background: #8e44ad;
+    .audio-player button:hover {
+      background: #ecf0f1;
     }
+
+    .audio-player input[type="range"] {
+      width: 100px;
+      cursor: pointer;
+    }
+
+    body.dark .audio-player { background: #9b59b6; }
+    body.dark .audio-player button { background: #2c2c2c; color: #fff; }
+    body.dark .audio-player button:hover { background: #444; }
 
     /* زر رجوع للأعلى */
     #backToTop {
@@ -116,43 +110,32 @@
       left: 20px;
       display: none;
       background: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
+    body.dark #backToTop { background: #c0392b; }
 
-    body.dark #backToTop {
-      background: #c0392b;
-    }
-
-    /* أنيميشن */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* جعل المحتوى متجاوب */
-    @media (max-width: 768px) {
-      body {
-        margin: 10px;
-        font-size: 16px;
-      }
-      p {
-        font-size: 16px;
-        padding: 10px;
-      }
-      button {
-        font-size: 13px;
-        padding: 7px 10px;
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- أزرار أعلى الصفحة -->
-  <div class="top-buttons">
-    <button id="playButton">🔊 تشغيل التلاوة</button>
-    <button id="themeToggle">🌙 الوضع الداكن</button>
+  <!-- مشغل الصوت -->
+  <div class="audio-player">
+    <button id="playPause">▶️</button>
+    <button id="repeat">🔁</button>
+    <input id="volume" type="range" min="0" max="1" step="0.05" value="1">
+    <button id="themeToggle">🌙</button>
   </div>
 
-  <!-- مشغل الصوت -->
+  <!-- ملف الصوت -->
   <audio id="quranAudio" src="فكيف اذا جئنا من كل امة بشهيد الشيخ محمد ايوب.mp4"></audio>
 
   <h1>تذكر</h1>
@@ -170,45 +153,56 @@
   <p>عن أبي هريرة -رضي الله عنه- قال: قال رسول الله -صلّى الله عليه وسلّم- قال: (بادِروا بالأعمالِ سبعًا هل تنتظرون إلا فقراً مُنسياً، أو غنىً مُطغياً، أو مرضاً مُفسدًا، أو هرماً مُفنداً، أو موتاً مُجهزاً، أو الدجالَ فشرُّ غائبٍ ينتظرُ أو الساعةُ فالساعةُ أدهى وأمرُّ)</p>
 
   <!-- زر الرجوع للأعلى -->
-  <button id="backToTop">⬆️ للأعلى</button>
+  <button id="backToTop">⬆️</button>
 
   <script>
     const audio = document.getElementById("quranAudio");
-    const playButton = document.getElementById("playButton");
+    const playPause = document.getElementById("playPause");
+    const repeatBtn = document.getElementById("repeat");
+    const volumeSlider = document.getElementById("volume");
     const themeToggle = document.getElementById("themeToggle");
-    const body = document.body;
     const backToTop = document.getElementById("backToTop");
+    const body = document.body;
 
-    // محاولة تشغيل الصوت عند بداية الصفحة
+    // تشغيل تلقائي عند تحميل الصفحة
     window.addEventListener("load", () => {
       audio.play().catch(() => {
-        console.log("المتصفح منع التشغيل التلقائي، اضغط الزر للتشغيل.");
+        console.log("المتصفح منع التشغيل التلقائي.");
       });
     });
 
-    // زر تشغيل التلاوة
-    playButton.addEventListener("click", () => {
-      audio.currentTime = 0;
-      audio.play();
+    // تشغيل/إيقاف
+    playPause.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPause.textContent = "⏸️";
+      } else {
+        audio.pause();
+        playPause.textContent = "▶️";
+      }
     });
 
-    // زر تبديل الثيم
+    // تكرار
+    repeatBtn.addEventListener("click", () => {
+      audio.loop = !audio.loop;
+      repeatBtn.style.background = audio.loop ? "#2ecc71" : "";
+    });
+
+    // مستوى الصوت
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
+
+    // تبديل الثيم
     themeToggle.addEventListener("click", () => {
       body.classList.toggle("dark");
-      themeToggle.textContent = body.classList.contains("dark") 
-        ? "☀️ الوضع الفاتح" 
-        : "🌙 الوضع الداكن";
+      themeToggle.textContent = body.classList.contains("dark") ? "☀️" : "🌙";
     });
 
     // زر رجوع للأعلى
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 200) {
-        backToTop.style.display = "block";
-      } else {
-        backToTop.style.display = "none";
-      }
+      backToTop.style.display = window.scrollY > 200 ? "block" : "none";
     });
-
     backToTop.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
